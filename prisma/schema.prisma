@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Users {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+}
+
+model files {
+  id        String  @id @default(dbgenerated("gen_random_uuid()"))
+  parent_id String? @unique
+  parent    files?  @relation("file_parent", fields: [parent_id], references: [id])
+  childrens files[] @relation("file_parent")
+  name      String
+  size      Int
+  link      String
+  type      String
+  extension String
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}

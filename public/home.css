@@ -76,12 +76,9 @@ img {
 }
 
 .side-bar {
-    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
-    /* border: 1px solid black; */
     gap: 15px;
-    /* align-items: flex-start; */
 }
 
 .new-file-wrapper {
@@ -89,6 +86,7 @@ img {
     align-items: center;
     display: flex;
     cursor: pointer;
+    position: relative;
 }
 
 .new-file-button {
@@ -225,4 +223,27 @@ img {
     inset: 0;
     pointer-events: none;
     opacity: 0;
+}
+
+.folder-name-input {
+    background-color: #62abff;
+    padding-block: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.hide {
+    display: none;
+}
+
+#folder_name {
+    font-size: 1.5rem;
+
+}
+
+.create-folder-button {
+    font-size: 1.2rem;
+    padding: 5px;
 }

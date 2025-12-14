@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "safe",
   "version": "1.0.0",
   "description": "File Uploader",
@@ -10,8 +11,20 @@
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "^7.1.0",
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
-    "live-server": "^1.2.2"
+    "express-session": "^1.18.2",
+    "express-validator": "^7.3.1",
+    "live-server": "^1.2.2",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.16.3",
+    "prisma": "^7.1.0",
+    "validator": "^13.15.23"
   }
 }

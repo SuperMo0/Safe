@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="/home.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/regular.min.css">
-
+    <script src="/homeScript.js" defer></script>
     <title>Safe</title>
 </head>
 
 <body>
 
     <div class="page">
-
         <header class="header-wrapper">
 
             <div class="logo-wrapper">
@@ -31,11 +30,17 @@
         <section class="main">
 
             <div class="side-bar">
-
-                <div class="new-file-wrapper">
-                    <button class="new-file-button"> + New</button>
-                    <i class="fa-solid fa-angle-down"></i>
+                <div class="drop-down-wrapper">
+                    <div class="new-file-wrapper">
+                        <button class="new-file-button"> + New</button>
+                        <i class="fa-solid fa-angle-down"></i>
+                    </div>
+                    <div class="folder-name-input hide">
+                        <input type="text" name="folder_name" id="folder_name" placeholder="NewFolder">
+                        <button class="create-folder-button"> create</button>
+                    </div>
                 </div>
+
 
                 <div class="side-bar-item">
                     <i class="fa-regular fa-hard-drive"></i>
