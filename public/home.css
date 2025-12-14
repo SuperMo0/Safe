@@ -1,26 +1,13 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-    text-decoration: none;
-    list-style: none;
-    font-family: 'Courier New', Courier, monospace;
-    color: #444444;
-}
-
-img {
-    display: block;
-}
-
+/*-----------------------------------------start of Header Styles-----------------*/
 .page {
     padding-inline: 30px;
-
 }
 
-.logo {
-    width: 80px;
+.header-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 4fr 1fr;
+    align-items: center;
+    gap: 20px;
 }
 
 .logo-wrapper {
@@ -29,24 +16,20 @@ img {
     gap: 10px;
 }
 
+.logo {
+    width: 80px;
+}
+
 .logo-name {
     white-space: nowrap;
-
 }
 
 .search-bar {
     height: 50px;
     padding-inline: 35px;
     border: 1px solid rgb(87, 86, 86);
-    font-size: 1.2rem;
+    font-size: var(--med);
     border-radius: 12px;
-}
-
-.header-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 4fr 1fr;
-    align-items: center;
-    gap: 20px;
 }
 
 .user-icon {
@@ -68,6 +51,9 @@ img {
     left: 6%;
 }
 
+/*-----------------------------------------End of Header Styles-----------------*/
+
+
 .main {
     margin-top: 25px;
     display: grid;
@@ -75,14 +61,16 @@ img {
     gap: 35px;
 }
 
+/*-----------------------------------------Start of left side bar styles-----------------*/
+
 .side-bar {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.new-file-wrapper {
-    border: 1px solid #62abff;
+.new-folder-wrapper {
+    border: 1px solid var(--main-blue);
     align-items: center;
     display: flex;
     cursor: pointer;
@@ -91,10 +79,34 @@ img {
 
 .new-file-button {
     color: #60aaff;
-    font-size: 2rem;
+    font-size: var(--xxxl);
     padding-block: 5px;
     cursor: pointer;
     width: 85%;
+}
+
+.fa-angle-down {
+    font-size: 40px;
+    color: var(--main-blue);
+    border-left: 1px solid var(--main-blue);
+}
+
+#folder_name {
+    font-size: var(--xl);
+}
+
+.create-folder-button {
+    font-size: var(--med);
+    padding: 5px;
+}
+
+.folder-name-input {
+    background-color: var(--main-blue);
+    padding-block: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 .side-bar-item {
@@ -114,15 +126,39 @@ img {
 }
 
 .side-bar-item p {
-    color: #444444;
-    font-size: 1.5rem;
-
+    font-size: var(--xl);
 }
 
-.fa-angle-down {
-    font-size: 40px;
-    color: #6eb2ff;
-    border-left: 1px solid #62abff;
+
+
+/*-----------------------------------------End of left side bar styles-----------------*/
+
+
+
+
+/*-----------------------------------------Start of Files Explorer styles-----------------*/
+
+.path-info-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.go-back {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--main-blue);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.go-back:hover {
+    transform: scale(1.01);
+}
+
+.fa-chevron-left {
+    color: white;
 }
 
 .folders-section-container {
@@ -136,12 +172,10 @@ img {
 
 .section-title {
     font-size: 1.4rem;
-    color: #444444;
-
 }
 
 .fa-folder {
-    color: #62abff;
+    color: var(--main-blue);
     font-size: 100px;
     align-self: center;
 }
@@ -202,10 +236,15 @@ img {
     margin-bottom: 20px;
 }
 
-.upload-area p {
+/*-----------------------------------------End of file explorer styles-----------------*/
+
+
+
+/*-----------------------------------------start of upload area styles-----------------*/
+/*.upload-area p {
     color: upload-area;
 }
-
+*/
 .upload-wrapper {
     text-align: center;
 }
@@ -225,25 +264,6 @@ img {
     opacity: 0;
 }
 
-.folder-name-input {
-    background-color: #62abff;
-    padding-block: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
 .hide {
     display: none;
-}
-
-#folder_name {
-    font-size: 1.5rem;
-
-}
-
-.create-folder-button {
-    font-size: 1.2rem;
-    padding: 5px;
 }

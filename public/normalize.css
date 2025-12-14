@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    list-style: none;
+    font-family: 'Courier New', Courier, monospace;
+    color: #444444;
+    --text-color: #444444;
+    --main-blue: #62abff;
+    --small: 1rem;
+    --med: 1.2rem;
+    --large: 1.4rem;
+    --xl: 1.5rem;
+    --xxl: 1.6rem;
+    --xxxl: 1.8rem;
+}
+
+img {
+    display: block;
+}

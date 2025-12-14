@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/home.css">
     <link rel="stylesheet" href="/css/all.min.css">
     <link rel="stylesheet" href="/css/regular.min.css">
@@ -17,7 +18,7 @@
         <header class="header-wrapper">
 
             <div class="logo-wrapper">
-                <img class="logo" src="logo.png" alt="">
+                <img class="logo" src="/logo.png" alt="">
                 <h1 class="logo-name">Safe Home Page</h1>
             </div>
 
@@ -31,14 +32,14 @@
 
             <div class="side-bar">
                 <div class="drop-down-wrapper">
-                    <div class="new-file-wrapper">
+                    <div class="new-folder-wrapper">
                         <button class="new-file-button"> + New</button>
                         <i class="fa-solid fa-angle-down"></i>
                     </div>
-                    <div class="folder-name-input hide">
+                    <form method="post" class="folder-name-input hide">
                         <input type="text" name="folder_name" id="folder_name" placeholder="NewFolder">
-                        <button class="create-folder-button"> create</button>
-                    </div>
+                        <button type="submit" class="create-folder-button"> create</button>
+                    </form>
                 </div>
 
 
@@ -58,31 +59,36 @@
                 </div>
 
             </div>
-            <div class="main-content">
-                <p class="path">My Drive > project</p>
+
+            <div data-content="" class="main-content">
+                <div class="path-info-container">
+                    <p class="path">My Drive ></p>
+                    <div data-id="<%= parent %>" class="go-back">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </div>
+                </div>
 
                 <div class="folders-section-container">
                     <p class="section-title">Folders</p>
                     <div class="folders-container">
-                        <div class="folder-container">
-                            <i class="fa-solid fa-folder"></i>
-                            <p class="folder-name">Paris images sdasd as as asdasd</p>
-                        </div>
-                        <div class="folder-container">
-                            <i class="fa-solid fa-folder"></i>
-                            <p class="folder-name">Paris images sdasd as as asdasd</p>
-                        </div>
-                        <div class="folder-container">
-                            <i class="fa-solid fa-folder"></i>
-                            <p class="folder-name">Paris images sdasd as as asdasd</p>
-                        </div>
+
+                        <% content.forEach(element=> { %>
+                            <div data-id='<%=element.id%>' class="folder-container">
+                                <i class="fa-solid fa-folder"></i>
+                                <p class="folder-name">
+                                    <%= element.name %>
+                                </p>
+                            </div>
+                            <% }) %>
                     </div>
                 </div>
 
                 <div class="files-section-container">
                     <p class="section-title">Files</p>
                     <div class="files-container">
-                        <div class="file-container">
+
+
+                        <!-- <div class="file-container">
                             <i class="fa-regular fa-file-pdf"></i>
                             <p class="folder-name">Meeting Notes.pdf</p>
                             <p class="file-size"> 2.4M</p>
@@ -97,7 +103,7 @@
                             <i class="fa-regular fa-file-lines"></i>
                             <p class="folder-name">Final Logo</p>
                             <p class="file-size"> 3.4M</p>
-                        </div>
+                        </div>-->
 
                     </div>
                 </div>

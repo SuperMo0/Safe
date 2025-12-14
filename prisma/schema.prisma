@@ -15,6 +15,7 @@ model Users {
   email    String  @unique
   name     String?
   password String
+  files    files[]
 }
 
 model files {
@@ -23,10 +24,12 @@ model files {
   parent    files?  @relation("file_parent", fields: [parent_id], references: [id])
   childrens files[] @relation("file_parent")
   name      String
-  size      Int
-  link      String
+  size      Int?
+  link      String?
   type      String
-  extension String
+  extension String?
+  owner     Users   @relation(fields: [usersId], references: [id])
+  usersId   Int
 }
 
 model Session {

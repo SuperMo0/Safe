@@ -7,23 +7,26 @@ import validate from './lib/validate.js'
 import passport from './lib/passport.js';
 const app = express();
 
+app.set('view engine', 'ejs');
 
 
+app.use(express.static('./public'));
+app.use(express.static('./node_modules/@fortawesome/fontawesome-free'));
 app.use(session);
 app.use(passport.authenticate('session'));
 
-app.set('view engine', 'ejs');
-app.use(express.static('./public'));
-app.use(express.static('./node_modules/@fortawesome/fontawesome-free'));
 
 
 app.get('/signup', controller.renderSignup);
 app.get('/login', controller.renderLogin);
 app.get('/', controller.renderHome)
+app.get('/folder/:id', controller.handleViewFolder)
 
 
 app.post('/signup', express.urlencoded({ extended: false }), validate.validateNewUser, controller.handleNewUser);
 app.post('/login', express.urlencoded({ extended: false }), passport.authenticate('local'), controller.renderHome);
+
+app.post('/{*splat}', express.urlencoded({ extended: false }), controller.handleNewFolder);
 
 
 app.listen(3000);

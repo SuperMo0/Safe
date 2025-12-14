@@ -3,6 +3,7 @@ import prisma from "../db/queries.js";
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import queries from "../db/queries.js";
+import { name } from "ejs";
 
 
 
@@ -14,11 +15,11 @@ function renderLogin(req, res) {
     res.render('login');
 }
 
-function renderHome(req, res) {
-    console.log(req);
-
-    if (req.user) res.render('home');
-    else res.redirect('/login');
+async function renderHome(req, res) {
+    if (!req.user) res.redirect('/login');
+    const content = await queries.getUserFilesById(req.user.id, null);
+    // console.log(content);
+    res.render('home', { content: content, parent: null });
 }
 
 async function handleNewUser(req, res) {
@@ -41,4 +42,36 @@ async function handleNewUser(req, res) {
 }
 
 
-export default { renderHome, renderLogin, renderSignup, handleNewUser };
+async function handleNewFolder(req, res) {
+    let path = req.url.split('/');
+    let parent = path[path.length - 1];
+    let folder_name = req.body.folder_name;
+
+    if (!parent.trim()) parent = null;
+
+    // console.log(req.user);
+
+    await queries.insertFile({
+        name: folder_name,
+        type: 'folder',
+        parent_id: parent,
+        user_id: req.user.id,
+        owner: req.user
+    })
+    res.redirect('/');
+}
+
+
+async function handleViewFolder(req, res) {
+    if (!req.user) { res.redirect('login'); return };
+    let folder_id = req.params.id;
+    let content = await queries.getUserFilesById(req.user.id, folder_id);
+    let folder = await queries.getFileById(folder_id, req.user.id);
+    let parent = folder.parent_id;
+
+    console.log(parent, "************");
+    res.render('home', { content, parent });
+}
+
+
+export default { renderHome, renderLogin, renderSignup, handleNewUser, handleNewFolder, handleViewFolder };

@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "files" ALTER COLUMN "link" DROP NOT NULL,
+ALTER COLUMN "size" DROP NOT NULL,
+ALTER COLUMN "extension" DROP NOT NULL;
