@@ -1,4 +1,5 @@
-import queries from "../db/queries.js";
+import { locales } from "validator/lib/isIBAN.js";
+import * as queries from "../db/queries.js";
 import supbase from '../lib/supbase.js'
 
 
@@ -26,6 +27,56 @@ export async function renderHome(req, res) {
 
 }
 
+
+export async function handleNewShare(req, res) {
+
+    let file_id = req.body.file_id;
+
+    let duration = req.body.duration;
+
+
+    let file = await queries.getFileById(file_id, req.user.id);
+
+    if (!file) {
+        return next('no file exist');
+    }
+
+    let url = await supbase.getFileUrl(file.path, duration * 60 * 60, req.query.download);
+
+    let expires_at = new Date();
+
+    expires_at.setTime(expires_at.getTime() + duration * 60 * 60 * 1000);
+
+    expires_at = Intl.DateTimeFormat('en-US', {
+        year: "numeric",
+        month: "2-digit",
+        day: "numeric",
+        hour12: true,
+        hour: "numeric",
+    }).format(expires_at);
+
+    let share = await queries.insertSharedFile({ user_id: req.user.id, file_id, url, expires_at });
+
+    res.json({ url });
+
+}
+export async function renderShared(req, res) {
+
+    res.send('ok');
+    /* try {
+         let folders = await queries.getAllUserFolders();
+         folders = JSON.stringify(folders);
+ 
+         let files = await queries.getAllUserFiles();
+         files = JSON.stringify(files);
+ 
+         res.render('home', { folders, files, currentLocation });
+     } catch (error) {
+         next(error);
+     }*/
+
+}
+
 export async function handleNewFolder(req, res, next) {
 
     let folder_name = req.body.name;
@@ -45,42 +96,50 @@ export async function handleNewFolder(req, res, next) {
     res.redirect('/home');
 }
 
-
-/*export async function handleViewFolder(req, res) {
-    let folder_id = req.params.id;
-    let content = await queries.getUserFilesById(req.user.id, folder_id);
-    let folder = await queries.getFileById(folder_id, req.user.id);
-    let parent = folder.parent_id;
-    res.render('home', { content, parent });
+function createFileObject(req, path, location) {
+    let file = {};
+    file.name = req.file.originalname;
+    file.size = req.file.size;
+    file.path = path;
+    file.type = req.file.mimetype;
+    file.user_id = req.user.id
+    file.parent_id = location;
+    return file;
 }
 
-*/
+export async function handleNewFile(req, res, next) {
 
-
-
-
-/*export async function handleUploadFile(req, res) {
-
-    let path = req.body.path.split('/');
-    let parent = path[path.length - 1];
-
-    if (!parent.trim()) parent = null;
+    let currentLocation = req.body.location;
+    req.session.currentLocation = currentLocation;
+    console.log(currentLocation);
 
     try {
-        let url = await supbase.uploadSingleFile(req.file);
-        let file = {};
-        file.name = req.file.originalname;
-        file.size = req.file.size;
-        file.link = url;
-        file.extension = req.file.mimetype;
-        file.user_id = req.user.id
-        file.parent_id = parent;
-        file.type = 'file';
-        await queries.insertFile(file)
-        res.send('ok');
+
+        let path = await supbase.uploadSingleFile(req.file);
+
+        let file = createFileObject(req, path, currentLocation);
+
+        await queries.insertFile(file);
+        res.redirect('/home');
     }
     catch (e) {
-        res.send('error uploading file');
-        return;
+        next(e);
     }
-}*/
+}
+
+
+export async function handleRequestFile(req, res, next) {
+
+    let id = req.params.id;
+    let file = await queries.getFileById(id, req.user.id);
+    if (!file) {
+        return next('no file exist');
+    }
+
+    let url = await supbase.getFileUrl(file.path, 10, req.query.download);
+    res.json({ url });
+}
+
+
+
+

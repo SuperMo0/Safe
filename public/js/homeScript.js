@@ -63,6 +63,107 @@ let pathList = ['My Drive'];
 })();
 
 
+
+let filesOperations = (function handleFilesOperations() {
+
+    let imagePreviewContainer = document.querySelector('.image-preview-container');
+    let img = document.createElement('img');
+    let download = document.querySelector('.download-media');
+    img.classList.add('image-preview');
+    let video = document.createElement('video');
+    video.setAttribute("loop", "true");
+    video.classList.add('video-preview');
+
+    let shareButton = document.querySelector('.share-button');
+    let shareForm = document.querySelector('.share-file-form');
+
+
+    shareButton.onclick = (e) => {
+        if (!download.file) return;
+        shareForm.classList.remove('hide');
+    }
+
+    shareForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let data = new FormData(e.target);
+        data.append('file_id', download.file.id);
+        let res = await fetch('/home/share', { method: "post", body: new URLSearchParams(data) });
+        res = await res.json();
+        let url = res.url
+        console.log(url);
+    })
+
+    function isMedia(type) {
+        if (type.startsWith('image') || type.startsWith('video')) return true;
+        return false;
+    }
+
+    function isPdf(type) {
+        if (type === 'application/json') return true;
+        return false;
+    }
+
+    function clearPreviews() {
+        imagePreviewContainer.replaceChildren();
+        shareForm.classList.add('hide');
+    }
+
+    function handlePreview(f, url) {
+        clearPreviews();
+        if (f.type.startsWith('image')) {
+            img.src = url;
+            imagePreviewContainer.appendChild(img);
+        }
+        else {
+            video.src = url;
+            video.play()
+            imagePreviewContainer.appendChild(video);
+        }
+
+        download.file = f;
+
+    }
+
+    download.onclick = () => {
+        handleFileDownload(download.file);
+    }
+
+    async function handleFileClick(file) {
+        let res = await fetch('/home/file/' + file.id);
+        res = await res.json();
+        let url = res.url;
+        if (isMedia(file.type)) handlePreview(file, url);
+        else if (isPdf(file.type)) {
+
+        }
+        else {
+
+        }
+
+    }
+
+    async function handleFileDownload(file) {
+        if (!file) return;
+        let res = await fetch('/home/file/' + file.id + '?download=true');
+        res = await res.json();
+        let url = res.url;
+        let data = await fetch(url);
+        data = await data.blob();
+        data = URL.createObjectURL(data);
+
+        let a = document.createElement('a');
+        a.setAttribute("download", file.name);
+        a.href = data;
+        a.click();
+        URL.revokeObjectURL(data);
+    }
+
+    return { handleFileClick, isMedia, isPdf, clearPreviews }
+
+})();
+
+
+
 (function handleNavigation() {
 
     currentLocation = foldersMap.get(currentLocation);
@@ -97,20 +198,22 @@ let pathList = ['My Drive'];
         for (let f of folder.folders) {
             let newFolder = folderTemplate.cloneNode(true);
             newFolder.querySelector('.folder-name').textContent = f.name;
-            newFolder.onclick = () => { pathList.push(f.name); showDirecotory(f); currentLocation = f }
+            newFolder.onclick = () => { filesOperations.clearPreviews(); pathList.push(f.name); showDirecotory(f); currentLocation = f }
             foldersContainer.appendChild(newFolder);
         }
 
         for (let f of folder.files) {
             let newFile;
 
-            if (f.type.startsWith('image') || f.type.startsWith('video')) newFile = mediaFileTemplate.cloneNode(true);
-            else if (f.type === 'Application/pdf') newFile = pdfFileTemplate.cloneNode(true);
+            if (filesOperations.isMedia(f.type)) newFile = mediaFileTemplate.cloneNode(true);
+            else if (f.type === 'application/pdf') newFile = pdfFileTemplate.cloneNode(true);
             else newFile = generalFileTemplate.cloneNode(true);
 
             newFile.querySelector('.file-name').textContent = f.name;
             newFile.querySelector('.file-size').textContent = (f.size / 1000000) + "MB";
             newFile.querySelector('.file-creation-time').textContent = f.created_at;
+            newFile.onclick = () => { filesOperations.handleFileClick(f) };
+
             filesContainer.appendChild(newFile);
         }
         let path = document.querySelector('.path');
@@ -128,8 +231,6 @@ let pathList = ['My Drive'];
 
 
     showDirecotory(currentLocation);
-    // showPath()
-
 })();
 
 
@@ -144,122 +245,68 @@ let pathList = ['My Drive'];
 })();
 
 
+(function handlePostNewFile() {
+
+    let fileName = document.querySelector('.name');
+
+    let fileInput = document.querySelector('#file');
+
+    let fileform = document.getElementById('file-form');
+
+    let progressBar = document.querySelector('.progress-bar')
 
 
+    function validateFile(file) {
+        let sizemb = file.size / 1000000;
+        if (sizemb > 5) {
+            alert('file too big!');
+            return false;
+        }
+        let allowed = ['application/pdf', 'text/plain']
+        if (!file.type.startsWith('image') && !file.type.startsWith('video') && !allowed.includes(file.type)) {
+            alert('unknown file type')
+            return false;
+        }
+        return true;
 
-
-/*let folders = document.querySelectorAll('.folder-container');
-folders.forEach((f) => {
-    console.log(f.dataset.id);
-    f.addEventListener('click', () => {
-        window.location.replace('/folder/' + f.dataset.id);
-    })
-})
-
-let goBack = document.querySelector('.go-back');
-goBack.addEventListener('click', () => {
-    let parent = goBack.dataset.id;
-    if (parent == '')
-        window.location.replace('/');
-    else window.location.replace('/folder/' + parent);
-})*/
-
-
-
-
-
-
-
-
-
-
-
-
-/*let uploadedFileName = document.querySelector('.file-name');
-
-let fileInput = document.querySelector('#file');
-let fileform = document.getElementById('file-form');
-let progressBar = document.querySelector('.progress-bar')
-
-fileInput.addEventListener("change", async (e) => {
-
-    let file = e.target.files[0];
-    let sizemb = file.size / 1000000;
-    if (sizemb > 5) {
-        alert('file too big!');
-        fileInput.files = null;
-        return;
     }
-    let allowed = ['application/pdf', 'text/plain',]
-    if (!file.type.startsWith('image') && !file.type.startsWith('video') && !allowed.includes(file.type)) {
-        fileInput.files = null;
-        alert('unknown file type')
-        return
-    }
-    uploadedFileName.textContent = file.name;
-    let data = new FormData(fileform);
 
-    let xhr = new XMLHttpRequest()
+    async function postFile(file) {
+        let data = new FormData(fileform);
+        let xhr = new XMLHttpRequest()
 
-    progressBar.classList.remove('hide');
-    xhr.upload.addEventListener('progress', (e) => {
-        let current = e.loaded / e.total;
-        progressBar.value = Math.floor(current * 100);
-    })
-
-    xhr.upload.addEventListener('loadend', (e) => {
-        progressBar.classList.add('hide');
-        fileInput.files = null;
-    })
-
-    xhr.addEventListener("loadend", (e) => {
-        window.location.reload();
-    })
-
-    data.append('path', window.location.pathname);
-    xhr.open('post', '/upload');
-    xhr.send(data);
-
-})
-
-
-
-let files = document.querySelectorAll('.file-container');
-
-let imagePreviewContainer = document.querySelector('.image-preview-container');
-let imagePreview = document.querySelector('.image-preview');
-let videoPreview = document.querySelector('.video-preview');
-let download = document.querySelector('.download-media');
-files.forEach((f) => {
-    if (!f.dataset.type.startsWith('image') && !f.dataset.type.startsWith('video')) {
-        f.addEventListener('click', (e) => {
-            let link = document.createElement('a');
-            link.href = f.dataset.link + '?download';
-            console.log(link.href);
-            link.download = f.dataset.name;
-            link.click();
+        progressBar.classList.remove('hide');
+        xhr.upload.addEventListener('progress', (e) => {
+            let current = e.loaded / e.total;
+            progressBar.value = Math.floor(current * 100);
         })
-    }
-    else if (f.dataset.type.startsWith('image')) {
-        f.addEventListener('click', (e) => {
-            videoPreview.classList.add('hide');
-            imagePreview.classList.remove('hide');
-            imagePreview.src = f.dataset.link;
-            download.href = f.dataset.link + '?download';
-            download.classList.remove('hide');
 
+        xhr.upload.addEventListener('loadend', (e) => {
+            progressBar.classList.add('hide');
+            fileInput.files = null;
         })
-    }
-    else if (f.dataset.type.startsWith('video')) {
-        f.addEventListener('click', (e) => {
-            imagePreview.classList.add('hide');
-            videoPreview.classList.remove('hide');
-            videoPreview.src = f.dataset.link;
-            videoPreview.play();
-            download.href = f.dataset.link + '?download';
-            download.classList.remove('hide');
+
+        xhr.addEventListener("loadend", (e) => {
+            window.location.reload();
         })
+        data.append('location', currentLocation.id);
+        xhr.open('post', '/home/file');
+        xhr.send(data);
     }
 
-})
-*/
+    fileInput.addEventListener("change", async (e) => {
+
+        let file = e.target.files[0];
+
+        if (!validateFile(file)) {
+            fileInput.files = null;
+            return;
+        }
+
+        fileName.textContent = file.name;
+        await postFile(file);
+
+    })
+
+
+})()

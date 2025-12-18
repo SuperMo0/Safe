@@ -32,7 +32,6 @@
 
             <div class="side-bar">
 
-
                 <div class="dropdown-wrapper">
                     <div class="new-folder-dropdown">
                         <button class="new-folder-dropdown-button"> + New Folder</button>
@@ -46,26 +45,35 @@
                 </div>
 
 
-                <div class="side-bar-item">
+                <a href="/home" class="side-bar-item">
                     <i class="fa-regular fa-hard-drive"></i>
                     <p>My Drive</p>
-                </div>
+                </a>
 
-                <div class="side-bar-item">
+                <a href="/home/shared" class="side-bar-item">
                     <i class="fa-regular fa-share-from-square"></i>
                     <p>Shared</p>
-                </div>
+                </a>
 
-                <div class="side-bar-item">
+                <a href="/home/trash" class="side-bar-item">
                     <i class="fa-regular fa-trash-can"></i>
                     <p>Trash</p>
-                </div>
+                </a>
 
-                <div class="image-preview-container ">
-                    <img class="image-preview hide" src="" alt="">
-                    <video loop class="video-preview hide" src=""></video>
-                    <a class="download-media hide" href=""> Download</a>
-                </div>
+
+                <form enctype="multipart/form-data" id="file-form">
+                    <label class="upload-area" for="file">
+                        <div class="upload-wrapper">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                            <p>Choose Files to upload</p>
+                            <p class="name"></p>
+                            <input class="file" type="file" name="file" id="file">
+                            <progress class="progress-bar hide" max="100" value="0"></progress>
+                        </div>
+                    </label>
+                </form>
+
+
 
 
             </div>
@@ -96,7 +104,6 @@
                     <p class="section-title">Files</p>
                     <div class="files-container">
 
-
                         <div class="file-container media hide">
                             <i class="fa-solid fa-photo-film"></i>
                             <p class="file-name"></p>
@@ -118,35 +125,26 @@
                             <p class="file-creation-time"></p>
                         </div>
 
-
                     </div>
                 </div>
 
             </div>
 
-            <form enctype="multipart/form-data" id="file-form">
-                <label class="upload-area" for="file">
-                    <div class="upload-wrapper">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                        <p>Choose Files to upload</p>
-                        <p class="file-name"></p>
-                        <input class="file" type="file" name="file" id="file">
-                        <progress class="progress-bar hide" max="100" value="0"></progress>
-                </label>
-            </form>
+            <div class="right-side-bar">
+                <div class="image-preview-container"></div>
+                <button class="download-media safe-button">Download</button>
+                <button class="share-button safe-button">Share File</button>
+                <form class="share-file-form hide" action="/home/share">
+                    <p>or share</p>
+                    <p>Choose the duration , after this duration the link will expire</p>
+                    <input min="0" value="1" id="duration" name="duration" type="number">
+                    <label for="duration">Hours</label>
+                    <button class="safe-button"> Generate Link</button>
+                </form>
+            </div>
     </div>
-
     </section>
-
-
-
     </div>
-
-
-
-
-
-
 </body>
 
 </html>

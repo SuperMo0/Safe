@@ -1,5 +1,5 @@
 
-import queries from "../db/queries.js";
+import * as queries from "../db/queries.js";
 import { check } from "./../lib/validator.js";
 import bcrypt from 'bcrypt'
 

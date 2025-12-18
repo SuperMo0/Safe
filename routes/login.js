@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/', controller.renderLogin);
 
-router.post('/', express.urlencoded({ extended: false }), passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }), controller.redirectHome);
+router.post('/', express.urlencoded({ extended: false }), passport.authenticate('local', { successRedirect: '/home', failureRedirect: '/login', failureMessage: true }), controller.redirectHome);
 
 router.delete('/', controller.logout);
 

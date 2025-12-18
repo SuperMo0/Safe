@@ -17,6 +17,7 @@ model users {
   password String
   files    files[]
   folders  folders[]
+  shares   share[]
 }
 
 model folders {
@@ -31,17 +32,27 @@ model folders {
 }
 
 model files {
-  id           String   @id @default(dbgenerated("gen_random_uuid()"))
-  parent_id    String?
-  usersId      Int
-  name         String
-  size         Int?
-  url          String?
-  type         String?
-  created_at   DateTime @default(now())
-  storage_name String
-  parent       folders? @relation(fields: [parent_id], references: [id])
-  owner        users    @relation(fields: [usersId], references: [id])
+  id         String   @id @default(dbgenerated("gen_random_uuid()"))
+  parent_id  String?
+  usersId    Int
+  name       String
+  size       Int?
+  path       String?
+  type       String?
+  created_at DateTime @default(now())
+  parent     folders? @relation(fields: [parent_id], references: [id])
+  owner      users    @relation(fields: [usersId], references: [id])
+  shares     share[]
+}
+
+model share {
+  id         String @id @default(dbgenerated("gen_random_uuid()"))
+  user       users  @relation(fields: [users_id], references: [id])
+  users_id   Int
+  file       files  @relation(fields: [file_id], references: [id])
+  file_id    String
+  url        String
+  expires_at String
 }
 
 model Session {
