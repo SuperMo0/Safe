@@ -22,7 +22,9 @@ export async function handleNewUser(req, res, next) {
     }
 
     let user = req.body;
+
     user.password = bcrypt.hashSync(user.password, 10);
+
     try {
         user = await queries.insertUser(user);
         await queries.createRootFolder(user.id);

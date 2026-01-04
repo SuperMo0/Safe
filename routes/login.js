@@ -14,4 +14,5 @@ router.post('/', express.urlencoded({ extended: false }), passport.authenticate(
 router.delete('/', controller.logout);
 
 
+
 export default router

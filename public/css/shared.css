@@ -3,6 +3,13 @@
     padding-inline: 30px;
 }
 
+body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 .header-wrapper {
     display: grid;
     grid-template-columns: 2fr 4fr 1fr;
@@ -100,15 +107,14 @@
 }
 
 
-.safe-button
-{
+.safe-button {
     background-color: var(--main-blue);
     padding: 10px;
     color: whitesmoke;
     cursor: pointer;
 }
 
-.notification{
+.notification {
     padding: 5px;
     background-color: #6eb2ff;
     color: white;
@@ -120,29 +126,138 @@
     opacity: 0;
 }
 
-.visable
-{
+.visable {
     transform: none;
     opacity: 1;
 }
 
-.fa-file{
+.fa-file {
     font-size: 50px;
 }
-.fa-share-from-square
-{
+
+.fa-share-from-square {
     color: white;
 }
-.shared-files-container{
+
+.shared-files-container {
     display: flex;
     flex-wrap: wrap;
     padding-top: 20px;
 }
-.shared-file-container{
+
+.shared-file-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 1px solid var(--main-blue);
     gap: 5px;
     padding: 5px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.shared-file-container p {
+    overflow-wrap: anywhere;
+}
+
+.file {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.mobile-nav {
+    height: 50px;
+    margin-top: auto;
+    border-top: 2px solid #60aaff;
+    box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.183);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    display: none;
+}
+
+.mobile-nav i {
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+
+.mobile-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-nav p {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+}
+
+.mobile-nav i {
+    color: #60aaff;
+}
+
+.mobile-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+@media screen and (width < 900px) {
+
+    .side-bar-item {
+        gap: 0px;
+    }
+
+    .shared-files-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding-top: 10px;
+        row-gap: 10px;
+        column-gap: 5px;
+    }
+
+    .main {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0px;
+    }
+
+    .mobile-nav {
+        display: flex;
+    }
+
+    .page {
+        padding-inline: 5px;
+    }
+
+    .logo {
+        width: 50px;
+    }
+
+    .search-bar {
+        width: 30vw;
+        padding-inline: 8px;
+        display: none;
+    }
+
+    .logo-name {
+        font-size: 1.2rem;
+    }
+
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .side-bar {
+        display: none;
+    }
 }

@@ -1,6 +1,18 @@
 /*-----------------------------------------start of Header Styles-----------------*/
 .page {
     padding-inline: 30px;
+    position: relative;
+    overflow-y: auto;
+    flex: 1;
+}
+
+body {
+    max-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 .header-wrapper {
@@ -143,7 +155,8 @@
 .side-bar-item p {
     font-size: var(--xl);
 }
-.fa-trash-can{
+
+.fa-trash-can {
     font-size: 15px;
     color: white;
 }
@@ -155,9 +168,14 @@
 
 /*-----------------------------------------Start of Files Explorer styles-----------------*/
 
+.main-content {
+    width: 100%;
+}
+
 .path-info-container {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .go-back {
@@ -188,8 +206,7 @@
     flex-wrap: wrap;
 }
 
-.files-container
-{
+.files-container {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
@@ -241,10 +258,6 @@
 
 }
 
-.file-size {
-    color: #636363;
-}
-
 .fa-photo-film {
     font-size: 40px;
     color: #60aaff;
@@ -255,28 +268,32 @@
     color: rgb(60, 165, 78);
 }
 
+.file-size {
+    color: #636363;
+}
+
+
+
 .fa-arrow-up-from-bracket {
     font-size: 70px;
     color: #444444;
     margin-bottom: 20px;
 }
 
-.delete-button{
+.delete-button {
     color: tomato;
     position: absolute;
 }
-.delete-button:hover
-{
+
+.delete-button:hover {
     transform: scale(1.2);
 }
 
-.folder-container .delete-button
-{
+.folder-container .delete-button {
     right: 0;
 }
 
-.file-container .delete-button
-{
+.file-container .delete-button {
     right: -25px;
 }
 
@@ -287,7 +304,7 @@
 
 /*-----------------------------------------start of upload area styles-----------------*/
 
-#file-form{
+#file-form {
     align-self: center;
     width: 100%;
 }
@@ -333,24 +350,25 @@
     object-fit: scale-down;
 }
 
-.safe-button
-{
+.safe-button {
     background-color: var(--main-blue);
     padding: 10px;
     color: whitesmoke;
     cursor: pointer;
 }
+
 .download-media {
     margin-top: 20px;
 }
-.right-side-bar{
+
+.right-side-bar {
     text-align: center;
     border-left: 1px solid rgb(192, 192, 192);
     padding-left: 5px;
 }
 
 
-#duration{
+#duration {
     border: 1px solid var(--main-blue);
     height: 50px;
     width: 80px;
@@ -358,14 +376,14 @@
 }
 
 
-.share-file-form{
+.share-file-form {
     margin-top: 20px;
     border: 1px solid var(--main-blue);
     padding: 5px;
 }
 
 
-.notification{
+.notification {
     padding: 5px;
     background-color: #6eb2ff;
     color: white;
@@ -377,21 +395,239 @@
     opacity: 0;
 }
 
-.visable
-{
+.visable {
     transform: none;
     opacity: 1;
 }
 
-.options
-{
+.options {
     position: absolute;
     background-color: #60aaff;
     right: 0;
     padding: 10px;
 
 }
-.user-container
-{
+
+.user-container {
     position: relative;
+}
+
+/*--------------------------------------------* start of mobile styles*/
+
+.mobile-nav {
+    height: 50px;
+    margin-top: auto;
+    border-top: 2px solid #60aaff;
+    box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.183);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    display: none;
+}
+
+.mobile-nav i {
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+
+.mobile-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-nav p {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+}
+
+.mobile-nav i {
+    color: #60aaff;
+}
+
+.mobile-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-folder-mobile {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    background-color: #4444448a;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    display: none;
+
+}
+
+.new-folder-form-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.create-folder-mobile .post-new-folder-button {
+    align-self: center;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+
+}
+
+.create-folder-mobile #name {
+    font-size: 1.5rem;
+
+}
+
+.add-folder-mobile-toggle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--main-blue);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    display: none;
+}
+
+.fa-plus {
+    color: white;
+}
+
+.buttons-wrapper {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.close-new-folder-page-button {
+    font-size: var(--med);
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--main-blue);
+    cursor: pointer;
+}
+
+
+@media screen and (width < 900px) {
+    .folders-container {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .add-folder-mobile-toggle {
+        display: grid;
+    }
+
+    .mobile-nav {
+        display: flex;
+    }
+
+    .page {
+        padding-inline: 5px;
+    }
+
+    .side-bar-item {
+        gap: 0;
+    }
+
+    .logo {
+        width: 50px;
+    }
+
+    .search-bar {
+        width: 30vw;
+        padding-inline: 8px;
+        display: none;
+    }
+
+    .logo-name {
+        font-size: 1.2rem;
+    }
+
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .side-bar {
+        display: none;
+    }
+
+    .right-side-bar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #dbd5d5ab;
+        display: none;
+    }
+
+    .main {
+        display: flex;
+
+    }
+
+    .file-container p {
+        font-size: 1rem;
+    }
+
+    .file-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        position: relative;
+        flex-wrap: wrap;
+    }
+
+    .fa-folder {
+        font-size: 60px;
+    }
+
+    .files-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .fa-file-pdf {
+        font-size: 30px;
+        color: rgb(253, 69, 36);
+
+    }
+
+    .fa-photo-film {
+        font-size: 30px;
+        color: #60aaff;
+    }
+
+    .fa-file-lines {
+        font-size: 30px;
+        color: rgb(60, 165, 78);
+    }
+
+    .folders-section-container {
+        padding: 0px;
+        margin-bottom: 20px;
+    }
+
+    /* .path-info-container {} */
+
 }

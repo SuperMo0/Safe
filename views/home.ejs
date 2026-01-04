@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/css/regular.min.css">
     <link rel="stylesheet" href="/css/home.css">
     <script src="/js/homeScript.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
     <title>Safe</title>
 </head>
 
@@ -84,9 +87,15 @@
                 class="main-content">
                 <div class="path-info-container">
                     <p class="path">My Drive ></p>
-                    <div class="go-back">
-                        <i class="fa-solid fa-chevron-left"></i>
+                    <div class="buttons-wrapper">
+                        <div class="add-folder-mobile-toggle">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <div class="go-back">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="folders-section-container">
@@ -135,11 +144,12 @@
                 </div>
 
             </div>
-
             <div class="right-side-bar">
                 <div class="image-preview-container"></div>
                 <button class="download-media safe-button">Download</button>
                 <button class="share-button safe-button">Share File</button>
+                <button type="button" class="safe-button close-preview-mobile">close</button>
+
                 <form class="share-file-form hide" action="/home/share">
                     <p>or share</p>
                     <p>Choose the duration , after this duration the link will expire</p>
@@ -148,12 +158,42 @@
                     <button class="safe-button"> Generate Link</button>
                 </form>
             </div>
+            <div class="create-folder-mobile">
+                <form method="post" action="/home/folder" class="new-folder-form-mobile">
+                    <input type="text" name="name" id="name" placeholder="NewFolder" required>
+                    <input style="width: 0; height: 0;" type="text" name="location" id="location" value="0">
+
+                    <div class="buttons-wrapper">
+                        <button type="submit" class="post-new-folder-button"> create</button>
+                        <button type="button" class="close-new-folder-page-button">Cancel</button>
+                    </div>
+                </form>
+            </div>
     </div>
     </section>
     </div>
     <div class="notification">
         link is copied to your clipboard
     </div>
+
+    <div class="mobile-nav">
+        <a href="/home" class="side-bar-item">
+            <i class="fa-regular fa-hard-drive"></i>
+            <p>My Drive</p>
+        </a>
+
+        <a href="/home/shared" class="side-bar-item">
+            <i class="fa-regular fa-share-from-square"></i>
+            <p>Shared</p>
+        </a>
+
+        <label class="mobile-upload" for="file">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+            <p class="">Upload</p>
+            <input class="file" type="file" name="file" id="file">
+        </label>
+    </div>
+
 </body>
 
 </html>

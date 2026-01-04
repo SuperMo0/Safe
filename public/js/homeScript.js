@@ -7,6 +7,25 @@
     newFolderDropdown.addEventListener("click", (e) => {
         newFolderForm.classList.toggle('hide');
     })
+
+    const toggleNewFolderMobile = document.querySelector('.add-folder-mobile-toggle');
+    const newFolderPageMobile = document.querySelector('.create-folder-mobile')
+    const closeNewFolderPage = document.querySelector('.close-new-folder-page-button');
+
+    closeNewFolderPage.addEventListener('click', () => {
+        newFolderPageMobile.style['display'] = 'none';
+
+    })
+    toggleNewFolderMobile.addEventListener("click", () => {
+        newFolderPageMobile.style['display'] = 'flex';
+    })
+})();
+
+
+(function handleSmallScreen() {
+
+
+
 })();
 
 
@@ -121,6 +140,11 @@ let filesOperations = (function handleFilesOperations() {
     }
 
     function handlePreview(f, url) {
+        const previewMobile = document.querySelector('.right-side-bar');
+        if (window.innerWidth < 900) {
+            previewMobile.style.display = 'block';
+        }
+
         clearPreviews();
         if (f.type.startsWith('image')) {
             img.src = url;
@@ -141,7 +165,7 @@ let filesOperations = (function handleFilesOperations() {
         handleFileDownload(download.file);
     }
 
-    async function handleFileClick(file) {       // 
+    async function handleFileClick(file) {
         let res = await fetch('/home/file/' + file.id);
         res = await res.json();
         let url = res.url;
@@ -267,10 +291,31 @@ let filesOperations = (function handleFilesOperations() {
 (function handlePostNewFolder() {
 
     let newFolderForm = document.querySelector('.new-folder-form');
-    let location = newFolderForm.querySelector('#location');
+
+    let newFolderFormMobile = document.querySelector('.new-folder-form-mobile');
+
+
+
     newFolderForm.addEventListener('submit', (e) => {
+        let location = newFolderForm.querySelector('#location');
         location.value = currentLocation.id;
     })
+
+    newFolderFormMobile.addEventListener('submit', (e) => {
+        console.log('here........');
+        let location = newFolderFormMobile.querySelector('#location');
+        location.value = currentLocation.id;
+    })
+
+    const closepPreviewMobile = document.querySelector('.close-preview-mobile');
+    const previewMobile = document.querySelector('.right-side-bar');
+    closepPreviewMobile.addEventListener("click", () => {
+        previewMobile.style['display'] = 'none';
+    })
+
+
+
+
 
 })();
 
@@ -305,6 +350,13 @@ let filesOperations = (function handleFilesOperations() {
         let data = new FormData(fileform);
         let xhr = new XMLHttpRequest()
 
+        // Create an instance of Notyf
+        var notyf = new window.Notyf({ duration: 0, ripple: true, position: { x: 'right', y: 'center' } });
+
+        // Display a success notification
+        notyf.success('your file is being uploaded...');
+
+
         progressBar.classList.remove('hide');
         xhr.upload.addEventListener('progress', (e) => {
             let current = e.loaded / e.total;
@@ -317,11 +369,17 @@ let filesOperations = (function handleFilesOperations() {
         })
 
         xhr.addEventListener("loadend", (e) => {
+            notyf.dismissAll();
+            notyf.success('your file was uploaded successfuly');
             window.location.reload();
         })
         data.append('location', currentLocation.id);
         xhr.open('post', '/home/file');
         xhr.send(data);
+        xhr.addEventListener('error', () => {
+            let notyf = new window.Notyf({ duration: 3000, ripple: true, position: { x: 'right', y: 'center' } });
+            notyf.error('there was an error please try again later');
+        })
     }
 
     fileInput.addEventListener("change", async (e) => {
