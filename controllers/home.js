@@ -47,8 +47,7 @@ export async function handleNewShare(req, res) {
         return next('no file exist');
     }
 
-    // let url = await supbase.getFileUrl(file.path, duration * 60 * 60, req.query.download);
-    let url = '22';
+    let url = await supbase.getFileUrl(file.path, duration * 60 * 60, req.query.download);
 
     let expires_at = new Date();
 
